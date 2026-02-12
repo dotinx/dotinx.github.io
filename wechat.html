@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>提示</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+        font-family: "PingFang SC", "Heiti SC", "SimHei", "Arial", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .spacer {
+        flex: 1 1 5%;
+      }
+
+      .icon-container {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #f44336;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .icon-container::before {
+        content: "!";
+        font-size: 48px;
+        color: white;
+        font-weight: bold;
+      }
+
+      .message {
+        font-size: 18px;
+        color: #333;
+        font-weight: 600;
+      }
+
+      .bottom-spacer {
+        flex: 2;
+      }
+    </style>
+    <script>
+      var originalUrl = window.location.hash.substr(1);
+      function isSafeUrl(url) {
+        try {
+          var targetUrl = new URL(url);
+          return (
+            targetUrl.hostname === "inx.wf" ||
+            targetUrl.hostname.endsWith(".inx.wf")
+          );
+        } catch (e) {
+          return false;
+        }
+      }
+      var isWechat = /MicroMessenger/i.test(navigator.userAgent);
+      if (!isWechat) {
+        if (originalUrl && isSafeUrl(originalUrl)) {
+          window.location.replace(originalUrl);
+        } else {
+          setTimeout(() => {
+            document.getElementById("prompt").innerHTML =
+              "<h1>无效的跳转链接</h1>";
+          }, 500);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="spacer"></div>
+    <div class="icon-container"></div>
+    <div class="message">访问被阻止</div>
+    <br />
+    <p>由于站点设置，此网页无法使用 WeChat 访问。</p>
+    <p id="prompt">请<b>复制链接</b>并在浏览器中访问。</p>
+    <div class="bottom-spacer"></div>
+  </body>
+</html>
